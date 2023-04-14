@@ -1,5 +1,5 @@
 import { createClient } from "wagmi";
-import { getDefaultClient } from 'connectkit';
+import { getDefaultClient } from "connectkit";
 
 const firechain = {
   id: 997,
@@ -11,7 +11,7 @@ const firechain = {
     symbol: "5ire",
   },
   rpcUrls: {
-    default: { http: ["https://rpc-testnet.5ire.network"] }
+    default: { http: ["https://rpc-testnet.5ire.network"] },
   },
   testnet: true,
 };
@@ -19,7 +19,7 @@ const firechain = {
 export const client = createClient(
   getDefaultClient({
     autoConnect: true,
-    appName: 'FitQuest',
+    appName: "FitQuest",
     chains: [firechain],
   })
 );

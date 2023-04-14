@@ -11,13 +11,13 @@ function App({ Component, pageProps }: AppProps) {
   return (
     <WagmiConfig client={client}>
       <ConnectKitProvider theme="retro">
-          <Header />
-          <div className="min-h-[calc(100vh-68px)] pt-16 px-2 sm:px-4">
-            <ChakraProvider>
-              <Component {...pageProps} />
-            </ChakraProvider>
-          </div>
-          <Footer />
+        <Header />
+        <div className="min-h-[calc(100vh-68px)] pt-16 px-2 sm:px-4">
+          <ChakraProvider>
+            <Component {...pageProps} />
+          </ChakraProvider>
+        </div>
+        <Footer />
       </ConnectKitProvider>
     </WagmiConfig>
   );

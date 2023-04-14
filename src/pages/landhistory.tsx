@@ -8,7 +8,7 @@ import Timeline from "../components/timeline";
 import ProductDetail from "../components/product-detail";
 import { useContractRead } from "wagmi";
 import { useRouter } from "next/router";
-import landABI  from "../contract/landABI.json"
+import landABI from "../contract/landABI.json";
 import { CONTRACT_ADDRESS } from "@/utils/contractAddress";
 
 interface ProductDetails {
@@ -39,15 +39,21 @@ const Producthistory: NextPage = () => {
   useEffect(() => {
     if ((data as ProductDetails) && !isLoading) {
       if ((data as unknown as ProductDetails) && !isLoading) {
-        const { name, imageURL, location, locationURL, propertyDim,timestamp } =
-          data as ProductDetails;
-          setProductHistory(
-            name.map((name: string, index: number) => {
-              const convertedTime = timestamp[index];
-              const date = new Date(convertedTime * 1000).toLocaleString();
-              return { title: name, time: date, Location: name[index] };
-            })
-          );
+        const {
+          name,
+          imageURL,
+          location,
+          locationURL,
+          propertyDim,
+          timestamp,
+        } = data as ProductDetails;
+        setProductHistory(
+          name.map((name: string, index: number) => {
+            const convertedTime = timestamp[index];
+            const date = new Date(convertedTime * 1000).toLocaleString();
+            return { title: name, time: date, Location: name[index] };
+          })
+        );
         setProductData({
           ...productData,
           name,

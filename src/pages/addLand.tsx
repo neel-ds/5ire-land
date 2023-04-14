@@ -7,31 +7,25 @@ import Button from "../components/form-elements/button";
 import FileUpload from "../components/form-elements/file-upload";
 import Header from "../components/form-components/Header";
 import {
-  useContractEvent,
   usePrepareContractWrite,
   useContractWrite,
   useWaitForTransaction,
-  useAccount,
 } from "wagmi";
 import { useToast } from "@chakra-ui/react";
 import { Web3Storage } from "web3.storage";
 import { useDisclosure } from "@chakra-ui/react";
-import {
-  Image,
-} from "@chakra-ui/react";
-import landABI  from "../contract/landABI.json"
+import { Image } from "@chakra-ui/react";
+import landABI from "../contract/landABI.json";
 import { CONTRACT_ADDRESS } from "@/utils/contractAddress";
 
 const AddLand: NextPage = () => {
   const [productData, setProductData] = useState({});
   const [imageUrl, setImageUrl] = useState("");
   const [image, setImage] = useState("");
-  const [userAddress, setUserAddress] = useState("");
 
   const handleData = (e: any) => {
     setProductData({ ...productData, [e.target.name]: e.target.value });
   };
-  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const { config } = usePrepareContractWrite({
     address: CONTRACT_ADDRESS,
@@ -40,7 +34,9 @@ const AddLand: NextPage = () => {
     args: [
       (productData as any).id,
       (productData as any).Name,
-      `${(productData as any).address} ${(productData as any).Location} ${(productData as any).pincode}`,
+      `${(productData as any).address} ${(productData as any).Location} ${
+        (productData as any).pincode
+      }`,
       (productData as any).locationURL,
       imageUrl,
       (productData as any).dimensions,
@@ -102,7 +98,9 @@ const AddLand: NextPage = () => {
                             label="Land ID"
                             type="text"
                             placeholder="Enter Your Land ID"
-                            onChange={(e) => { handleData(e) }}
+                            onChange={(e) => {
+                              handleData(e);
+                            }}
                           />
 
                           <Input
@@ -111,14 +109,18 @@ const AddLand: NextPage = () => {
                             label="Owner's name "
                             type="text"
                             placeholder="Enter Your Name"
-                            onChange={(e) => { handleData(e) }}
+                            onChange={(e) => {
+                              handleData(e);
+                            }}
                           />
                           <Input
                             id="Address"
                             name="address"
                             label="Owner's Address"
                             placeholder="Enter Your Address"
-                            onChange={(e) => { handleData(e) }}
+                            onChange={(e) => {
+                              handleData(e);
+                            }}
                           />
 
                           <Input
@@ -126,7 +128,9 @@ const AddLand: NextPage = () => {
                             name="dimensions"
                             label="Property dimensions"
                             placeholder="Enter the dimensions of your land"
-                            onChange={(e) => { handleData(e) }}
+                            onChange={(e) => {
+                              handleData(e);
+                            }}
                           />
                         </div>
                         <div className="w-full space-y-6 md:w-1/2">
@@ -135,7 +139,9 @@ const AddLand: NextPage = () => {
                             name="Location"
                             label="Land Area"
                             placeholder="Location"
-                            onChange={(e) => { handleData(e) }}
+                            onChange={(e) => {
+                              handleData(e);
+                            }}
                           />
                           <Input
                             id="pincode"
@@ -143,7 +149,9 @@ const AddLand: NextPage = () => {
                             label="PINCODE"
                             placeholder="Enter Landmark PIN Code"
                             type="number"
-                            onChange={(e) => { handleData(e) }}
+                            onChange={(e) => {
+                              handleData(e);
+                            }}
                           />
 
                           <div className="flex space-x-5">
@@ -180,7 +188,12 @@ const AddLand: NextPage = () => {
                         </div>
                       </div>
                       <div className="max-w-[200px] flex m-auto">
-                        <Button label="Register RoR" onClick={()=>{write?.()}} />
+                        <Button
+                          label="Register RoR"
+                          onClick={() => {
+                            write?.();
+                          }}
+                        />
                       </div>
                     </form>
                   </div>

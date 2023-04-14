@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   Box,
   Heading,
@@ -22,7 +21,7 @@ interface ProductProps {
 export default function ProductCard(props: ProductProps) {
   const router = useRouter();
   const { id, name, description, imageURL } = props;
-  console.log(id)
+  console.log(id);
   return (
     <Center py={6}>
       <Box

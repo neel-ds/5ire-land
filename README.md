@@ -1,38 +1,33 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 5ireLand
+It is a secure and efficient platform that uses blockchain technology to streamline land registry transactions. Through this any citizen can able to register the records of right and transfer the ownership too. One can see the RoR history and explore the listed propery easily using property ID.
 
-## Getting Started
+## Prerequisites
 
-First, run the development server:
+Every user must have Metamask wallet to interact with this product. Checkout how to create Metamask wallet from [here](https://polygon.technology/blog/getting-started-with-metamask-on-polygon). To use this lauchpad, kindly add the 5ire network from [here](https://docs.5ire.org/docs/how-to-build-on-5ireChain/EVMCompatability). 
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+Follow the instructions for local environment: The user must have Node.js and npm to run this platform. Just download Node.js from [here](https://nodejs.org/en/download/).
+
+### Setup Instructions
+
+Clone the repo via CLI:
+
+```sh
+git clone https://github.com/neel-ds/5ire-land.git 
+cd 5ire-land
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Install the required packages:
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+```sh
+npm install
+yarn install   #or
+```
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+In the project directory, you can run:
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+```sh
+npm run dev
+yarn dev   #or
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- Open [http://localhost:3000](http://localhost:3000) to view it in the browser.

@@ -5,10 +5,7 @@ interface TimelineProps {
   time: string;
 }
 
-const TimelineItem = ({
-  title,
-  time: subtitle,
-}: TimelineProps) => {
+const TimelineItem = ({ title, time: subtitle }: TimelineProps) => {
   return (
     <li>
       <div className="right_content">
@@ -24,11 +21,7 @@ const TimelineItem = ({
 const Timeline = ({ points }: any) => {
   const pointers = points
     ? points.map(({ title, time: subtitle }: TimelineProps) => (
-        <TimelineItem
-          key={title}
-          title={title}
-          time={subtitle}
-        />
+        <TimelineItem key={title} title={title} time={subtitle} />
       ))
     : "";
 

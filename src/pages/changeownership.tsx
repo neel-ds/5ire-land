@@ -6,7 +6,7 @@ import Input from "../components/form-elements/input";
 import Button from "../components/form-elements/button";
 import Header from "../components/form-components/Header";
 import ProductDetail from "../components/product-detail";
-import { useDisclosure, useToast } from "@chakra-ui/react";
+import { useToast } from "@chakra-ui/react";
 import {
   usePrepareContractWrite,
   useContractWrite,
@@ -14,7 +14,7 @@ import {
   useAccount,
   useContractRead,
 } from "wagmi";
-import landABI  from "../contract/landABI.json"
+import landABI from "../contract/landABI.json";
 import { CONTRACT_ADDRESS } from "@/utils/contractAddress";
 
 interface ProductDetails {
@@ -30,7 +30,6 @@ const ChangeOwnership: NextPage = () => {
   const [productID, setProductID] = useState(0);
   const [name, setName] = useState("");
   const [locationURL, setLocationURL] = useState("");
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const { address, isConnected } = useAccount();
   const toast = useToast();
 
@@ -127,7 +126,12 @@ const ChangeOwnership: NextPage = () => {
                           placeholder="Owner's Name"
                           onChange={(e) => setName(e.target.value)}
                         />
-                        <Button label="Obtain RoR" onClick={()=>{write?.()}}/>
+                        <Button
+                          label="Obtain RoR"
+                          onClick={() => {
+                            write?.();
+                          }}
+                        />
                       </form>
                     </div>
                   </div>
