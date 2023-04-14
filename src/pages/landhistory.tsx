@@ -8,6 +8,8 @@ import Timeline from "../components/timeline";
 import ProductDetail from "../components/product-detail";
 import { useContractRead } from "wagmi";
 import { useRouter } from "next/router";
+import landABI  from "../contract/landABI.json"
+import { CONTRACT_ADDRESS } from "@/utils/contractAddress";
 
 interface ProductDetails {
   name: string[];
@@ -26,6 +28,38 @@ const Producthistory: NextPage = () => {
   const handleData = (e: any) => {
     setProductData({ ...productData, [e.target.name]: e.target.value });
   };
+
+  const { data, isError, isLoading } = useContractRead({
+    address: CONTRACT_ADDRESS,
+    abi: landABI,
+    functionName: "getLandbyID",
+    args: [(productData as any).productid],
+  });
+
+  useEffect(() => {
+    if ((data as ProductDetails) && !isLoading) {
+      if ((data as unknown as ProductDetails) && !isLoading) {
+        const { name, imageURL, location, locationURL, propertyDim,timestamp } =
+          data as ProductDetails;
+          setProductHistory(
+            name.map((name: string, index: number) => {
+              const convertedTime = timestamp[index];
+              const date = new Date(convertedTime * 1000).toLocaleString();
+              return { title: name, time: date, Location: name[index] };
+            })
+          );
+        setProductData({
+          ...productData,
+          name,
+          imageURL,
+          location,
+          locationURL,
+          propertyDim,
+          timestamp,
+        });
+      }
+    }
+  }, [data]);
 
   const router = useRouter();
   const productId = router.query.productId as string;
@@ -66,7 +100,7 @@ const Producthistory: NextPage = () => {
                           />
                         </form>
                         <div>
-                          <p className="text-xl font-medium title-font mb-4 text-[#a13bf7]">
+                          <p className="text-xl font-medium title-font mb-4 text-[#00bdff]">
                             {(productData as any).location}
                           </p>
                           <div className="p-2 flex flex-col">

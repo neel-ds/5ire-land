@@ -13,7 +13,7 @@ import { BsArrowUpRight } from "react-icons/bs";
 import { useRouter } from "next/router";
 
 interface ProductProps {
-  Id: string;
+  id: string;
   name: string;
   description: string;
   imageURL: string;
@@ -21,7 +21,8 @@ interface ProductProps {
 
 export default function ProductCard(props: ProductProps) {
   const router = useRouter();
-  const { Id, name, description, imageURL } = props;
+  const { id, name, description, imageURL } = props;
+  console.log(id)
   return (
     <Center py={6}>
       <Box
@@ -55,7 +56,7 @@ export default function ProductCard(props: ProductProps) {
             mb={2}
           >
             <Text fontSize={"xs"} fontWeight="medium">
-              {Id}
+              {id}
             </Text>
           </Box>
           <Heading color={"black"} fontSize={"2xl"} noOfLines={1}>
@@ -70,7 +71,7 @@ export default function ProductCard(props: ProductProps) {
             p={4}
             alignItems="center"
             onClick={() => {
-              router.push(`/producthistory?productId=${IDBDatabase}`);
+              router.push(`/landhistory?productId=${id}`);
             }}
             justifyContent={"space-between"}
             roundedBottom={"sm"}

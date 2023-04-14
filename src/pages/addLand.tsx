@@ -17,30 +17,65 @@ import { useToast } from "@chakra-ui/react";
 import { Web3Storage } from "web3.storage";
 import { useDisclosure } from "@chakra-ui/react";
 import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-  Box,
   Image,
-  Text,
 } from "@chakra-ui/react";
+import landABI  from "../contract/landABI.json"
+import { CONTRACT_ADDRESS } from "@/utils/contractAddress";
 
 const AddLand: NextPage = () => {
   const [productData, setProductData] = useState({});
   const [imageUrl, setImageUrl] = useState("");
   const [image, setImage] = useState("");
+  const [userAddress, setUserAddress] = useState("");
 
   const handleData = (e: any) => {
     setProductData({ ...productData, [e.target.name]: e.target.value });
   };
   const { isOpen, onOpen, onClose } = useDisclosure();
 
+  const { config } = usePrepareContractWrite({
+    address: CONTRACT_ADDRESS,
+    abi: landABI,
+    functionName: "registerLand",
+    args: [
+      (productData as any).id,
+      (productData as any).Name,
+      `${(productData as any).address} ${(productData as any).Location} ${(productData as any).pincode}`,
+      (productData as any).locationURL,
+      imageUrl,
+      (productData as any).dimensions,
+    ],
+  });
+  const { data, write } = useContractWrite(config);
 
+  const { isLoading, isSuccess } = useWaitForTransaction({
+    hash: data?.hash,
+  });
   const toast = useToast();
+
+  useEffect(() => {
+    if ("geolocation" in navigator) {
+      // Retrieve latitude & longitude coordinates from `navigator.geolocation` Web API
+      navigator.geolocation.getCurrentPosition(({ coords }) => {
+        const { latitude, longitude } = coords;
+        setProductData({
+          locationURL: `https://www.google.com/maps?q=${latitude},${longitude}`,
+        });
+      });
+    }
+  }, []);
+
+  useEffect(() => {
+    if (isSuccess) {
+      toast({
+        title: "Land record",
+        description: "Land record added successfully",
+        status: "success",
+        duration: 9000,
+        isClosable: true,
+      });
+    }
+  }, [isSuccess]);
 
   return (
     <>
@@ -145,7 +180,7 @@ const AddLand: NextPage = () => {
                         </div>
                       </div>
                       <div className="max-w-[200px] flex m-auto">
-                        <Button label="Register RoR" />
+                        <Button label="Register RoR" onClick={()=>{write?.()}} />
                       </div>
                     </form>
                   </div>

@@ -3,6 +3,8 @@ import { SimpleGrid } from "@chakra-ui/react";
 import ProductCard from "../components/ProductCard";
 import { useContractRead } from "wagmi";
 import { useEffect, useState } from "react";
+import landABI  from "../contract/landABI.json"
+import { CONTRACT_ADDRESS } from "@/utils/contractAddress";
 
 export default function Products() {
   interface ProductDetails {
@@ -15,6 +17,32 @@ export default function Products() {
   }
 
   const [productData, setProductData] = useState([{}]);
+
+  const { data, isError, isLoading } = useContractRead({
+    address: CONTRACT_ADDRESS,
+    abi: landABI,
+    functionName: "getAllLands",
+  });
+
+  useEffect(() => {
+    console.log(data)
+    if ((data as ProductDetails[]) && !isLoading) {
+      let products = [];
+      for (let product of data as ProductDetails[]) {
+        products.push({
+          id: product.id,
+          name: product.name,
+          location: product.location,
+          imageURL: product.imageURL,
+        });
+      }
+      setProductData(products);
+    }
+  }, [data, isLoading]);
+
+  useEffect(() => {
+    console.log(productData);
+  }, [productData]);
 
   return (
     <>

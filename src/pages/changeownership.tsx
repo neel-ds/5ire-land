@@ -8,24 +8,14 @@ import Header from "../components/form-components/Header";
 import ProductDetail from "../components/product-detail";
 import { useDisclosure, useToast } from "@chakra-ui/react";
 import {
-  useContractEvent,
   usePrepareContractWrite,
   useContractWrite,
   useWaitForTransaction,
   useAccount,
   useContractRead,
 } from "wagmi";
-import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-  Box,
-  Text,
-} from "@chakra-ui/react";
+import landABI  from "../contract/landABI.json"
+import { CONTRACT_ADDRESS } from "@/utils/contractAddress";
 
 interface ProductDetails {
   name: string[];
@@ -39,12 +29,29 @@ const ChangeOwnership: NextPage = () => {
   const [productData, setProductData] = useState({});
   const [productID, setProductID] = useState(0);
   const [name, setName] = useState("");
-  const [productLocation, setProuctLocation] = useState("");
   const [locationURL, setLocationURL] = useState("");
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [userAddress, setUserAddress] = useState("");
   const { address, isConnected } = useAccount();
   const toast = useToast();
+
+  const { data, isError, isLoading } = useContractRead({
+    address: CONTRACT_ADDRESS,
+    abi: landABI,
+    functionName: "getLandbyID",
+    args: [productID],
+  });
+
+  const { config } = usePrepareContractWrite({
+    address: CONTRACT_ADDRESS,
+    abi: landABI,
+    functionName: "transferOwnership",
+    args: [productID, address, name],
+  });
+  const { data: updateData, write } = useContractWrite(config);
+
+  const { isLoading: isLoadingUpdate, isSuccess } = useWaitForTransaction({
+    hash: updateData?.hash,
+  });
 
   useEffect(() => {
     if ("geolocation" in navigator) {
@@ -57,6 +64,34 @@ const ChangeOwnership: NextPage = () => {
       });
     }
   }, []);
+
+  useEffect(() => {
+    console.log(data);
+    if ((data as unknown as ProductDetails) && !isLoading) {
+      const { name, imageURL, location, locationURL, propertyDim } =
+        data as unknown as ProductDetails;
+      setProductData({
+        ...productData,
+        name,
+        imageURL,
+        location,
+        locationURL,
+        propertyDim,
+      });
+    }
+  }, [data]);
+
+  useEffect(() => {
+    if (isSuccess) {
+      toast({
+        title: "Transferred Ownership",
+        description: "Land ownership is transferred successfully",
+        status: "success",
+        duration: 9000,
+        isClosable: true,
+      });
+    }
+  }, [isSuccess]);
 
   return (
     <>
@@ -84,7 +119,6 @@ const ChangeOwnership: NextPage = () => {
                           placeholder="Property ID"
                           onChange={(e) => setProductID(e.target.value)}
                         />
-
                         <Input
                           id="name"
                           name="name"
@@ -93,8 +127,7 @@ const ChangeOwnership: NextPage = () => {
                           placeholder="Owner's Name"
                           onChange={(e) => setName(e.target.value)}
                         />
-
-                        <Button label="Obtain RoR"/>
+                        <Button label="Obtain RoR" onClick={()=>{write?.()}}/>
                       </form>
                     </div>
                   </div>
@@ -106,7 +139,7 @@ const ChangeOwnership: NextPage = () => {
                 <div className="relative w-full h-full md:h-auto">
                   <div className="relative rounded-lg shadow-lg bg-white/30 bg-opacity-30 dark:bg-gray-700/30 dark:bg-opacity-30">
                     <div className="px-6 py-6 lg:px-8">
-                      <p className="text-xl font-medium title-font mb-4 text-[#a13bf7]">
+                      <p className="text-xl font-medium title-font mb-4 text-[#00bdff]">
                         {(productData as any).location}
                       </p>
                       <div className="p-2 flex flex-col">
